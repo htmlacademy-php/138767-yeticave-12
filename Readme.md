@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Андрей Лаврик](https://up.htmlacademy.ru/php/12/user/138767).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Рожков](https://htmlacademy.ru/profile/id1069033).
 
 ---
 
