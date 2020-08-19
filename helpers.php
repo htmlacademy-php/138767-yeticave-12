@@ -142,5 +142,27 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+/**
+ * форматирует сумму и добалявет знак рубля
+ *
+ * Примеры использования:
+ * format_price(12500) // 12 500₽
+ * format_price(999) // 999₽
+ * format_price(1000) // 1 000₽
+ *
+ * @param int $price цена в виде цифры
+ *
+ * @return string цена со знаком
+ */
+function format_price(int $price) {
+    $price_value = ceil($price);
 
+    if ($price_value < 1000) {
+        return $price_value . "₽";
+    }
+
+    if ($price_value >= 1000) {
+        return number_format($price_value, 0, ',', ' ') . "₽";
+    }
+}
 
