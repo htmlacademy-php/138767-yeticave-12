@@ -149,20 +149,22 @@ function include_template($name, array $data = []) {
  * format_price(12500) // 12 500₽
  * format_price(999) // 999₽
  * format_price(1000) // 1 000₽
+ * format_price(1150, "$") // 1 150₽
  *
  * @param int $price цена в виде цифры
+ * @param string $label значек валюты
  *
  * @return string цена со знаком
  */
-function format_price(int $price) {
+function format_price(int $price, string $label = "₽") {
     $price_value = ceil($price);
 
     if ($price_value < 1000) {
-        return $price_value . "₽";
+        return $price_value . $label;
     }
 
     if ($price_value >= 1000) {
-        return number_format($price_value, 0, ',', ' ') . "₽";
+        return number_format($price_value, 0, ',', ' ') . $label;
     }
 }
 
