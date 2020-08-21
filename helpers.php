@@ -131,6 +131,7 @@ function include_template($name, array $data = []) {
     $result = '';
 
     if (!is_readable($name)) {
+        print($name);
         return $result;
     }
 
@@ -139,7 +140,6 @@ function include_template($name, array $data = []) {
     require $name;
 
     $result = ob_get_clean();
-
     return $result;
 }
 /**
