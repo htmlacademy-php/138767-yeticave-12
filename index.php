@@ -4,9 +4,7 @@ $is_auth = rand(0, 1);
 
 $user_name = "Lavrik Andrei"; // укажите здесь ваше имя
 
-$index_categories = 0;
 $categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
-$categories_length = count($categories);
 $data = [
     [
         "name" => "2014 Rossignol District Snowboard",
@@ -135,12 +133,11 @@ $data = [
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php while ($index_categories < $categories_length): ?>
-            <li class="nav__item">
-                <a href="pages/all-lots.html"><?= $categories[$index_categories] ?></a>
-            </li>
-            <?php $index_categories = $index_categories + 1; ?>
-            <?php endwhile; ?>
+            <?php foreach ($categories as $categori): ?>
+                <li class="nav__item">
+                    <a href="pages/all-lots.html"><?= $categori ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
