@@ -167,4 +167,25 @@ function format_price(int $price, string $label = "₽") {
         return number_format($price_value, 0, ',', ' ') . $label;
     }
 }
+/**
+ * вычисляет сколько осталось часов и минут до даты из будущего
+ *
+ * Примеры использования:
+ * get_date_range("2020-08-20") // [10, 27]
+ *
+ * @param string $date дата в виде "2020-08-20"
+ *
+ * @return array [10, 27] где 10 - часы, 27 - минуты
+ */
+function get_date_range($date) {
+    $dt_end = date_create($date);
+    $dt_now = date_create("now");
+    $dt_diff = date_diff($dt_end, $dt_now);
+    $left_time_seconds = date_interval_format($dt_diff, "%S");
+    $left_time_hours = floor((strtotime($date) - time()) / 3600);
+
+    $time_lot_expiration = [$left_time_hours, $left_time_seconds];
+
+    return $time_lot_expiration;
+}
 
