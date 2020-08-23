@@ -131,7 +131,6 @@ function include_template($name, array $data = []) {
     $result = '';
 
     if (!is_readable($name)) {
-        print($name);
         return $result;
     }
 
