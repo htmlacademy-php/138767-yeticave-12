@@ -160,9 +160,7 @@ function format_price(int $price, string $label = "₽") {
 
     if ($price_value < 1000) {
         return $price_value . $label;
-    }
-
-    if ($price_value >= 1000) {
+    } else {
         return number_format($price_value, 0, ',', ' ') . $label;
     }
 }
