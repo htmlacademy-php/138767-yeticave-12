@@ -32,7 +32,7 @@ CREATE TABLE bets (
 CREATE TABLE users (
     user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     created TIMESTAMP(6),
-    email VARCHAR(128),
+    email VARCHAR(128) UNIQUE KEY,
     name VARCHAR(128),
     password VARCHAR(128),
     contacts VARCHAR(128)
@@ -42,6 +42,7 @@ ALTER TABLE lots ADD FOREIGN KEY(lot_category_id) REFERENCES categories(category
 ALTER TABLE lots ADD FOREIGN KEY(author_user_id) REFERENCES users(user_id);
 ALTER TABLE lots ADD FOREIGN KEY(winner_user_id) REFERENCES users(user_id);
 ALTER TABLE bets ADD FOREIGN KEY(bet_lot_id) REFERENCES lots(lot_id);
+ALTER TABLE bets ADD FOREIGN KEY(bet_user_id) REFERENCES users(user_id);
 
 CREATE INDEX email ON users(email);
 CREATE INDEX created ON bets(created);
@@ -49,5 +50,3 @@ CREATE INDEX created ON lots(created);
 CREATE INDEX description ON lots(description);
 CREATE INDEX lot_name ON lots(lot_name);
 CREATE INDEX name ON categories(name);
-
-
