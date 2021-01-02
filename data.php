@@ -2,7 +2,7 @@
 $user_name = "Lavrik Andrei";
 $title = "yeticave";
 
-$categories = ["Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
+$categories = ["Доски и лыжи", "крепления", "Ботинки", "Одежда", "Инструменты", "Разное"];
 $data = [
     [
         "name" => "2014 Rossignol District Snowboard",
