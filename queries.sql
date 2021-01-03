@@ -151,6 +151,15 @@ VALUES (
     (SELECT lot_id FROM lots WHERE lot_id = 2)
 );
 
+-- СТАВКИ на lot_id 1
+INSERT INTO bets(created, price, bet_user_id, bet_lot_id)
+VALUES (
+    "2020-09-25 01:25:00",
+    5900,
+    (SELECT user_id FROM users WHERE user_id = 1),
+    (SELECT lot_id FROM lots WHERE lot_id = 1)
+);
+
 
 -- ЗАПРОСЫ НА ПОЛУЧЕНИЕ
 -- получить все категории
@@ -165,7 +174,22 @@ SELECT
     (SELECT name FROM categories WHERE lots.lot_category_id = categories.category_id) AS category,
     completed
     FROM lots
-    WHERE completed > NOW();
+    WHERE completed IS NULL;
+
+-- вариант с JOIN
+SELECT
+    lot_name,
+    init_price,
+    img_url,
+    completed,
+    name,
+    MAX(bets.price) as current_price
+    FROM lots
+    JOIN categories ON categories.category_id = lots.lot_category_id
+    JOIN bets ON bets.bet_lot_id = lots.lot_id
+    WHERE completed IS NULL
+    GROUP BY lots.lot_id
+    ORDER BY lots.created DESC;
 
 -- показать лот по его id. Получите также название категории, к которой принадлежит лот
 SELECT
