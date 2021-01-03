@@ -198,6 +198,15 @@ SELECT
     FROM lots
     WHERE lot_id = 1;
 
+-- вариант с JOIN
+SELECT
+    lot_name,
+    name
+    FROM lots
+    JOIN categories ON lots.lot_category_id = categories.category_id
+    WHERE lot_id = 1;
+
+
 -- обновить название лота по его идентификатору
 UPDATE lots SET lot_name = "new lot name" WHERE lot_id = 1;
 
