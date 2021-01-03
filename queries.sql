@@ -95,6 +95,36 @@ VALUES (
     (SELECT user_id FROM users WHERE user_id = 4)
 );
 
+-- лот с товаром C победителем
+INSERT INTO lots(created, lot_name, description, img_url, init_price, bet_step, lot_category_id, author_user_id, winner_user_id, completed)
+VALUES (
+    "2020-09-25",
+    "Маска Oakley Canopy",
+    "Subject Women - это лимитированная версия женского сноуборда Salomon Lotus с захватывающей новой графикой!",
+    "img/lot-6.jpg",
+    5400,
+    500,
+    (SELECT category_id FROM categories WHERE category_id = 6),
+    (SELECT user_id FROM users WHERE user_id = 4),
+    1,
+    "2020-09-27"
+);
+
+-- лот с товаром C победителем
+INSERT INTO lots(created, lot_name, description, img_url, init_price, bet_step, lot_category_id, author_user_id, winner_user_id, completed)
+VALUES (
+    "2020-09-25",
+    "Куртка для сноуборда DC Mutiny Charocal",
+    "Subject Women - это лимитированная версия женского сноуборда Salomon Lotus с захватывающей новой графикой!",
+    "img/lot-5.jpg",
+    7500,
+    500,
+    (SELECT category_id FROM categories WHERE category_id = 4),
+    (SELECT user_id FROM users WHERE user_id = 1),
+    2,
+    "2020-09-28"
+);
+
 
 -- СТАВКИ на lot_id 2
 INSERT INTO bets(created, price, bet_user_id, bet_lot_id)
