@@ -1,3 +1,5 @@
+CREATE DATABASE yeticave;
+USE yeticave;
 -- КАТЕГОРИИ
 INSERT INTO categories(name)
 VALUES("Доски и лыжи"), ("Крепления"), ("Ботинки"), ("Одежда"), ("Инструменты"), ("Разное");
@@ -143,7 +145,7 @@ SELECT
     WHERE lot_id = 1;
 
 -- обновить название лота по его идентификатору
-UPDATE lots SET lot_name = "new lot name" WHERE id = 1;
+UPDATE lots SET lot_name = "new lot name" WHERE lot_id = 1;
 
 -- получить список ставок для лота по его идентификатору с сортировкой по дате
 SELECT * FROM bets WHERE bet_lot_id = 1 ORDER BY created;
