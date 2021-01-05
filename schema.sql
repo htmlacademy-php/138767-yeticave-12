@@ -13,7 +13,7 @@ CREATE TABLE lots (
     lot_name VARCHAR(128),
     lot_category_id INT NOT NULL,
     author_user_id INT NOT NULL,
-    winner_user_id INT NOT NULL,
+    winner_user_id INT NULL, -- победителя может не быть
     description VARCHAR(255),
     img_url VARCHAR(255),
     init_price NUMERIC(19, 4),
