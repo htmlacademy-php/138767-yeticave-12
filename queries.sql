@@ -186,7 +186,7 @@ SELECT
     MAX(bets.price) as current_price
     FROM lots
     JOIN categories ON categories.category_id = lots.lot_category_id
-    JOIN bets ON bets.bet_lot_id = lots.lot_id
+    LEFT JOIN bets ON bets.bet_lot_id = lots.lot_id
     WHERE completed IS NULL
     GROUP BY lots.lot_id
     ORDER BY lots.created DESC;
