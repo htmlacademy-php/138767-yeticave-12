@@ -17,7 +17,7 @@
     <ul class="lots__list">
         <?php foreach ($lots as $key => $item): ?>
             <?php
-                $date_range = get_date_range($item["created"]);
+                $date_range = get_date_range($item["completed"]);
                 $hours = $date_range[0];
                 $minutes = $date_range[1];
             ?>
@@ -33,7 +33,7 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?= format_price($item["init_price"]) ?></span>
                         </div>
-                        <?php if ($hours < 0 && $minutes < 0) {  ?>
+                        <?php if ($hours >= 0 && $minutes >= 0) {  ?>
                             <div class="lot__timer timer <?= $hours == 0 ? "timer--finishing" : ""; ?> ">
                                 <?= $hours . "-" . $minutes ?>
                             </div>
