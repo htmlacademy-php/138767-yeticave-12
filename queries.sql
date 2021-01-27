@@ -183,11 +183,12 @@ SELECT
     img_url,
     completed,
     name,
+    lots.created,
     MAX(bets.price) as current_price
     FROM lots
     JOIN categories ON categories.category_id = lots.lot_category_id
     LEFT JOIN bets ON bets.bet_lot_id = lots.lot_id
-    WHERE completed IS NULL
+    WHERE completed > NOW()
     GROUP BY lots.lot_id
     ORDER BY lots.created DESC;
 
