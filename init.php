@@ -3,6 +3,8 @@ require_once "config/db.php";
 
 $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
 mysqli_set_charset($link, "utf8");
+$lots = get_lots_from_db();
+$categories = get_categories_from_db();
 
 if (!$link) {
     throw new Exception("No database connection");
@@ -11,6 +13,7 @@ if (!$link) {
 function get_lots_from_db() {
     global $link;
     $lots = [];
+
     $lots_sql = "SELECT
         lot_name,
         lot_id,
@@ -49,11 +52,26 @@ function get_categories_from_db() {
 
 function get_lot() {
     global $link;
-    $lot_category_id = filter_input(INPUT_GET, "category");
     $lot_id = filter_input(INPUT_GET, "lot");
 
-    if ($lot_category_id && $lot_id) {
-        $lot_sql = "SELECT * from lots WHERE lot_id =" . $lot_id . " lot_category =" . $lot_category_id . ";";
+    if ($lot_id) {
+        $lot_sql = "SELECT
+            lot_name,
+            lot_id,
+            lot_category_id,
+            init_price,
+            img_url,
+            completed,
+            name,
+            description,
+            bet_step,
+            lots.created,
+            MAX(bets.price) as current_price
+            FROM lots
+            JOIN categories ON categories.category_id = lots.lot_category_id
+            LEFT JOIN bets ON bets.bet_lot_id = lots.lot_id
+            WHERE completed > NOW()
+            AND lot_id = " . $lot_id . ";";
 
         if ($lot_result = mysqli_query($link, $lot_sql)) {
             return mysqli_fetch_all($lot_result, MYSQLI_ASSOC);
