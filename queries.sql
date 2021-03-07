@@ -179,6 +179,8 @@ SELECT
 -- вариант с JOIN
 SELECT
     lot_name,
+    lot_id,
+    lot_category_id,
     init_price,
     img_url,
     completed,
@@ -202,7 +204,11 @@ SELECT
 -- вариант с JOIN
 SELECT
     lot_name,
-    name
+    name,
+    description,
+    img_url,
+    init_price,
+    lot_id
     FROM lots
     JOIN categories ON lots.lot_category_id = categories.category_id
     WHERE lot_id = 1;
