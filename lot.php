@@ -18,6 +18,6 @@
         "title" => $title,
         "user_name" => $user_name
     ]);
-    
+
     print($layout);
 ?>
