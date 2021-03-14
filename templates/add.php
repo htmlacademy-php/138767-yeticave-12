@@ -1,4 +1,4 @@
-<form class="form form--add-lot container form--invalid" action="https://echo.htmlacademy.ru" method="post">
+<form class="form form--add-lot container form--invalid" action="add.php" method="post">
     <!-- form--invalid -->
     <h2>Добавление лота</h2>
     <div class="form__container-two">
@@ -10,8 +10,8 @@
         <div class="form__item">
             <label for="category">Категория <sup>*</sup></label>
             <select id="category" name="category">
-                <?php foreach ($categories as $category):?>
-                    <option value="<?= print($category["category_id"]) ?>"><?= print($category["name"]) ?></option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?php print($category["category_id"]) ?>"><?php print($category["name"]) ?></option>
                 <?php endforeach; ?>
             </select>
             <span class="form__error">Выберите категорию</span>

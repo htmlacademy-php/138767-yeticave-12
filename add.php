@@ -6,8 +6,6 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $required = ["lot_name", "description", "img_url", "category", "init_price", "completed", "bet_step"];
         $errors = [];
-
-        
     } else {
         $page_content = include_template("add.php", ["categories" => $categories]);
 
