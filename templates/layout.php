@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title><?= $title; ?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body>
