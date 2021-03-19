@@ -25,10 +25,11 @@
     <div class="form__item form__item--file">
         <label>Изображение <sup>*</sup></label>
         <div class="form__input-file">
-            <input class="visually-hidden" type="file" id="img_url" value="">
-            <label for="lot-img">
-                Добавить
-            </label>
+            <!--   убираю класс visually-hidden т.к кнопка "добавить" с ним не работает         -->
+            <input type="file" id="img_url" name="img_url">
+<!--            <label for="lot-img">-->
+<!--                Добавить-->
+<!--            </label>-->
         </div>
     </div>
     <div class="form__container-three">
