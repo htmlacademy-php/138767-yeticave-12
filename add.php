@@ -17,38 +17,42 @@
         ], true);
 
         foreach ($lot as $key => $value) {
-            $is_value_numeric = empty($value) || !is_numeric($value);
+            $is_value_numeric = !empty($value) || is_numeric($value);
 
             switch ($key) {
                 case "lot_name":
                     if (empty($value)) {
                         $errors[$key][] = "Введите наименование лота";
                     }
+                    break;
                 case "category":
                     if (empty($value)) {
                         $errors[$key][] = "Выберите категорию";
                     }
+                    break;
                 case "description":
                     if (empty($value)) {
                         $errors[$key][] = "Введите описание";
                     }
+                    break;
                 case "init_price":
-                    if ($is_value_numeric) {
+                    if (!$is_value_numeric) {
                         $errors[$key][] = "Введите начальную цену";
+                    } else {
+                        if ((int)$value < 0) {
+                            $errors[$key][] = "Цена не может быть меньше нуля или ноль";
+                        }
                     }
-                    if ($is_value_numeric && $value < 0) {
-                        $errors[$key][] = "Цена не может быть меньше нуля или ноль";
-                    }
+                    break;
                 case "bet_step":
-                    if ($is_value_numeric) {
+                    if (!$is_value_numeric) {
                         $errors[$key][] = "Введите шаг ставки";
+                    } else {
+                        if (is_float((float)$value) || (int)$value < 0) {
+                            $errors[$key][] = "Шаг ставки должен быть целым числом и не меньше нуля";
+                        }
                     }
-                    if ($is_value_numeric || is_float($value)) {
-                        $errors[$key][] = "Шаг ставки должен быть целым числом";
-                    }
-                    if ($is_value_numeric && $value < 0) {
-                        $errors[$key][] = "Цена не может быть меньше нуля или ноль";
-                    }
+                    break;
                 case "completed":
                     if (empty($value)) {
                         $errors[$key][] = "Введите дату окончания торгов";
@@ -64,6 +68,7 @@
                             $errors[$key][] = "Дата должна быть больше текущей даты, хотя бы на один день";
                         }
                     }
+                    break;
             }
         }
 
