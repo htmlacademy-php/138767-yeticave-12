@@ -6,6 +6,20 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $required = ["lot_name", "description", "category", "init_price", "completed", "bet_step"];
         $errors = [];
+        $lot_post = $_POST;
+        $lot_sql = 'INSERT INTO lots(created, lot_name, description, img_url, init_price, bet_step, lot_category_id, author_user_id)
+            VALUES (
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                ?,
+                (SELECT category_id FROM categories WHERE category_id = ?),
+                (SELECT user_id FROM users WHERE user_id = ?)
+            );';
+        $stmt = db_get_prepare_stmt($link, $lot_sql, $lot_post);
+        $res = mysqli_stmt_execute($stmt);
 
         $lot = filter_input_array(INPUT_POST, [
             "lot_name" => FILTER_DEFAULT,
@@ -17,7 +31,7 @@
         ], true);
 
         foreach ($lot as $key => $value) {
-            $is_value_numeric = !empty($value) || is_numeric($value);
+            $is_value_numeric = isset($value) && is_numeric($value);
 
             switch ($key) {
                 case "lot_name":
@@ -48,10 +62,13 @@
                     if (!$is_value_numeric) {
                         $errors[$key][] = "Введите шаг ставки";
                     } else {
-                        if (is_float((float)$value) || (int)$value < 0) {
+                        if (is_float(+$value) || +$value <= 0) {
                             $errors[$key][] = "Шаг ставки должен быть целым числом и не меньше нуля";
                         }
                     }
+                    break;
+                case "img_url":
+                    print($value);
                     break;
                 case "completed":
                     if (empty($value)) {
@@ -60,12 +77,17 @@
                         // проверка формата строки гггг-мм-дд 2012-01-01
                         $is_date_format_valid = preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$value);
                         $today = date("Y-m-d");
+                        $d = new DateTime($value);
+                        $date = $d->format("U");
 
                         if (!$is_date_format_valid) {
                             $errors[$key][] = "Дата должна быть формата гггг-мм-дд";
                         }
                         if ($is_date_format_valid && $value === $today) {
                             $errors[$key][] = "Дата должна быть больше текущей даты, хотя бы на один день";
+                        }
+                        if ($is_date_format_valid && $date <= time()) {
+                            $errors[$key][] = "Дата должна не может быть прошедшей";
                         }
                     }
                     break;
