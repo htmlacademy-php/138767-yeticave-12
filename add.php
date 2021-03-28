@@ -2,33 +2,33 @@
     require_once ("init.php");
     require_once ("helpers.php");
     require_once ("data.php");
+    require_once ("routes.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $required = ["lot_name", "description", "category", "init_price", "completed", "bet_step"];
+        $filename = "";
         $errors = [];
-        $lot_post = $_POST;
-        $lot_sql = 'INSERT INTO lots(created, lot_name, description, img_url, init_price, bet_step, lot_category_id, author_user_id)
+        $lot_post = [
+            "lot_name" => FILTER_DEFAULT,
+            "description" => FILTER_DEFAULT,
+            "init_price" => FILTER_DEFAULT,
+            "completed" => FILTER_DEFAULT,
+            "bet_step" => FILTER_DEFAULT,
+            "lot_category_id" => FILTER_VALIDATE_INT,
+            "author_user_id" => FILTER_DEFAULT,
+        ];
+        $lot_sql = 'INSERT INTO lots(created, lot_name, description, init_price, completed, bet_step, lot_category_id, author_user_id, img_url)
             VALUES (
-                ?,
+                NOW(),
                 ?,
                 ?,
                 ?,
                 ?,
                 ?,
                 (SELECT category_id FROM categories WHERE category_id = ?),
-                (SELECT user_id FROM users WHERE user_id = ?)
+                (SELECT user_id FROM users WHERE user_id = ?),
+                ?
             );';
-        $stmt = db_get_prepare_stmt($link, $lot_sql, $lot_post);
-        $res = mysqli_stmt_execute($stmt);
-
-        $lot = filter_input_array(INPUT_POST, [
-            "lot_name" => FILTER_DEFAULT,
-            "description" => FILTER_DEFAULT,
-            "category" => FILTER_DEFAULT,
-            "init_price" => FILTER_DEFAULT,
-            "completed" => FILTER_DEFAULT,
-            "bet_step" => FILTER_DEFAULT,
-        ], true);
+        $lot = filter_input_array(INPUT_POST, $lot_post);
 
         foreach ($lot as $key => $value) {
             $is_value_numeric = isset($value) && is_numeric($value);
@@ -39,7 +39,7 @@
                         $errors[$key][] = "Введите наименование лота";
                     }
                     break;
-                case "category":
+                case "lot_category_id":
                     if (empty($value)) {
                         $errors[$key][] = "Выберите категорию";
                     }
@@ -67,9 +67,6 @@
                         }
                     }
                     break;
-                case "img_url":
-                    print($value);
-                    break;
                 case "completed":
                     if (empty($value)) {
                         $errors[$key][] = "Введите дату окончания торгов";
@@ -93,9 +90,34 @@
                     break;
             }
         }
+        if (!is_uploaded_file($_FILES["img_url"]["tmp_name"])) {
+            $errors["img_url"][] = "Загрузите изображение с лотом";
+        } else {
+            $allowed_types = ["image/png", "image/jpeg"];
+            $allowed_format = ["jpeg", "png", "jpg"];
+            $ext = pathinfo($_FILES["img_url"]["name"], PATHINFO_EXTENSION);
+
+            if (in_array(mime_content_type($_FILES["img_url"]["tmp_name"]), $allowed_types)) {
+
+                if (!in_array($ext, $allowed_format)) {
+                    $errors["img_url"][] = "Разрешенные форматы jpeg, jpg, png";
+                } else {
+                    $uploaddir = "./uploads/";
+                    $filename =  $uploaddir . uniqid() . basename($_FILES["img_url"]["name"]);
+                    $lot["img_url"] = $filename;
+                }
+            }
+        }
+
+        // временное решение пока нет авторизации пользователя
+        $lot["author_user_id"] = 1;
 
         if ($errors) {
-            $page_content = include_template("add.php", ["categories" => $categories]);
+            $page_content = include_template("add.php", [
+                "categories" => $categories,
+                "values" => $lot_post,
+                "errors" => $errors,
+            ]);
 
             $layout = include_template("layout.php", [
                 "categories" => $categories,
@@ -103,11 +125,20 @@
                 "is_auth" => $is_auth,
                 "title" => $title,
                 "user_name" => $user_name,
-                "errors" => $errors
             ]);
 
             print($layout);
+        } else {
+            $stmt = db_get_prepare_stmt($link, $lot_sql, $lot);
+            $res = mysqli_stmt_execute($stmt);
+            move_uploaded_file($_FILES["img_url"]["tmp_name"], $filename);
+
+            if ($res) {
+                $lot["lot_id"] = mysqli_insert_id($link);
+                header("Location: " . get_url_lot_page($lot));
+            }
         }
+
     } else {
         $page_content = include_template("add.php", ["categories" => $categories]);
 
