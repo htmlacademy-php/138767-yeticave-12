@@ -197,3 +197,10 @@ function show_form_error($errors) {
     }
 }
 
+function move_file($file) {
+    $uploaddir = "./uploads/";
+    $filename =  $uploaddir . uniqid() . basename($_FILES[$file]["name"]);
+    move_uploaded_file($_FILES[$file]["tmp_name"], $filename);
+    return $filename;
+}
+

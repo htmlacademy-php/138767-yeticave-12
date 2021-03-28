@@ -5,7 +5,6 @@
             <label for="lot-name">Наименование <sup>*</sup></label>
             <input id="lot-name" type="text" name="lot_name" placeholder="Введите наименование лота" >
             <?php show_form_error($errors["lot_name"] ?? 0) ?>
-<!--            <span class="form__error">Введите наименование лота</span>-->
         </div>
         <div class="form__item <?= isset($errors["lot_category_id"]) ? "form__item--invalid" : "" ?>">
             <label for="category">Категория <sup>*</sup></label>

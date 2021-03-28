@@ -1,5 +1,5 @@
-// 'use strict';
-// console.log(123)
+'use strict';
+
 flatpickr('#lot-date', {
   enableTime: true,
   dateFormat: "Y-m-d",
