@@ -66,7 +66,7 @@ function get_lot() {
             description,
             bet_step,
             lots.created,
-            MAX(bets.price) as current_price
+            IFNULL(MAX(bets.price + lots.bet_step), lots.init_price + lots.bet_step) as current_price
             FROM lots
             JOIN categories ON categories.category_id = lots.lot_category_id
             LEFT JOIN bets ON bets.bet_lot_id = lots.lot_id

@@ -186,3 +186,21 @@ function get_date_range($date) {
     return $time_lot_expiration;
 }
 
+function show_form_error($errors) {
+    if (!$errors) {
+        echo "";
+        return;
+    };
+
+    foreach ($errors as $error) {
+        echo "<span class='form__error'>" . $error . "</span>";
+    }
+}
+
+function move_file($file) {
+    $uploaddir = "./uploads/";
+    $filename =  $uploaddir . uniqid() . basename($_FILES[$file]["name"]);
+    move_uploaded_file($_FILES[$file]["tmp_name"], $filename);
+    return $filename;
+}
+
