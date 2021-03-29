@@ -56,14 +56,14 @@
             ]);
 
             print($layout);
-        } else {
-            $stmt = db_get_prepare_stmt($link, $lot_sql, $lot);
-            $res = mysqli_stmt_execute($stmt);
+            die;
+        }
+        $stmt = db_get_prepare_stmt($link, $lot_sql, $lot);
+        $res = mysqli_stmt_execute($stmt);
 
-            if ($res) {
-                $lot["lot_id"] = mysqli_insert_id($link);
-                header("Location: " . get_url_lot_page($lot));
-            }
+        if ($res) {
+            $lot["lot_id"] = mysqli_insert_id($link);
+            header("Location: " . get_url_lot_page($lot));
         }
 
     }
