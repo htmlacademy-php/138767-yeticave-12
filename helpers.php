@@ -204,3 +204,7 @@ function move_file($file) {
     return $filename;
 }
 
+function set_data_to_db($link, $sql, $data) {
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+    return mysqli_stmt_execute($stmt);
+}

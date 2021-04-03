@@ -31,7 +31,7 @@
                     <?php else: ?>
                         <ul class="user-menu__list">
                             <li class="user-menu__item">
-                                <a href="#">Регистрация</a>
+                                <a href="<?= get_sign_up_page() ?>">Регистрация</a>
                             </li>
                             <li class="user-menu__item">
                                 <a href="#">Вход</a>

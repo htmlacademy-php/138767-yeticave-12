@@ -2,7 +2,7 @@
     require_once ("init.php");
     require_once ("helpers.php");
     require_once ("data.php");
-    require_once ("validation.php");
+    require_once ("add-lot-validation.php");
     require_once ("routes.php");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -58,8 +58,7 @@
             print($layout);
             die;
         }
-        $stmt = db_get_prepare_stmt($link, $lot_sql, $lot);
-        $res = mysqli_stmt_execute($stmt);
+        $res = set_data_to_db($link, $lot_sql, $lot);
 
         if ($res) {
             $lot["lot_id"] = mysqli_insert_id($link);
