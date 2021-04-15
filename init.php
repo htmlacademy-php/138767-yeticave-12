@@ -1,4 +1,5 @@
 <?php
+
 require_once "config/db.php";
 
 $link = mysqli_connect($db['host'], $db['user'], $db['password'], $db['database']);
@@ -10,7 +11,8 @@ if (!$link) {
     throw new Exception("No database connection");
 }
 
-function get_lots_from_db() {
+function get_lots_from_db()
+{
     global $link;
     $lots = [];
 
@@ -38,7 +40,8 @@ function get_lots_from_db() {
     return $lots;
 }
 
-function get_categories_from_db() {
+function get_categories_from_db()
+{
     global $link;
     $categories = [];
     $categories_sql = "SELECT category_id, name, symbol_code FROM categories;";
@@ -50,7 +53,8 @@ function get_categories_from_db() {
     return $categories;
 }
 
-function get_lot() {
+function get_lot()
+{
     global $link;
     $lot_id = filter_input(INPUT_GET, "lot_id");
 
@@ -81,10 +85,11 @@ function get_lot() {
     return false;
 }
 
-function check_user_email($inputEmail) {
+function check_user_email($inputEmail)
+{
     global $link;
 
-    $email_sql = "SELECT email FROM users WHERE email = '". $inputEmail . "';";
+    $email_sql = "SELECT email FROM users WHERE email = '" . $inputEmail . "';";
 
     if ($email_result = mysqli_query($link, $email_sql)) {
         return mysqli_fetch_all($email_result, MYSQLI_ASSOC);

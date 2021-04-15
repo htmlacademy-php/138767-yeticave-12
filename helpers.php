@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
@@ -13,7 +14,8 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date): bool
+{
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -29,7 +31,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
@@ -46,12 +49,14 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
-                $type = 's';
-            }
-            else if (is_double($value)) {
-                $type = 'd';
+            } else {
+                if (is_string($value)) {
+                    $type = 's';
+                } else {
+                    if (is_double($value)) {
+                        $type = 'd';
+                    }
+                }
             }
 
             if ($type) {
@@ -96,9 +101,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
-    $number = (int) $number;
+    $number = (int)$number;
     $mod10 = $number % 10;
     $mod100 = $number % 100;
 
@@ -126,7 +131,8 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
+function include_template($name, array $data = [])
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -141,6 +147,7 @@ function include_template($name, array $data = []) {
     $result = ob_get_clean();
     return $result;
 }
+
 /**
  * форматирует сумму и добалявет знак рубля
  *
@@ -155,7 +162,8 @@ function include_template($name, array $data = []) {
  *
  * @return string цена со знаком
  */
-function format_price(int $price, string $label = "₽") {
+function format_price(int $price, string $label = "₽")
+{
     $price_value = ceil($price);
 
     if ($price_value < 1000) {
@@ -164,6 +172,7 @@ function format_price(int $price, string $label = "₽") {
         return number_format($price_value, 0, ',', ' ') . $label;
     }
 }
+
 /**
  * вычисляет сколько осталось часов и минут до даты из будущего
  *
@@ -174,7 +183,8 @@ function format_price(int $price, string $label = "₽") {
  *
  * @return array [10, 27] где 10 - часы, 27 - минуты
  */
-function get_date_range($date) {
+function get_date_range($date)
+{
     $dt_end = date_create($date);
     $dt_now = date_create("now");
     $dt_diff = date_diff($dt_end, $dt_now);
@@ -186,25 +196,28 @@ function get_date_range($date) {
     return $time_lot_expiration;
 }
 
-function show_form_error($errors) {
+function show_form_error($errors)
+{
     if (!$errors) {
         echo "";
         return;
-    };
+    }
 
     foreach ($errors as $error) {
         echo "<span class='form__error'>" . $error . "</span>";
     }
 }
 
-function move_file($file) {
+function move_file($file)
+{
     $uploaddir = "./uploads/";
-    $filename =  $uploaddir . uniqid() . basename($_FILES[$file]["name"]);
+    $filename = $uploaddir . uniqid() . basename($_FILES[$file]["name"]);
     move_uploaded_file($_FILES[$file]["tmp_name"], $filename);
     return $filename;
 }
 
-function set_data_to_db($link, $sql, $data) {
+function set_data_to_db($link, $sql, $data)
+{
     $stmt = db_get_prepare_stmt($link, $sql, $data);
     return mysqli_stmt_execute($stmt);
 }

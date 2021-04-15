@@ -1,4 +1,5 @@
 <?php
+
 require_once("init.php");
 require_once("helpers.php");
 require_once("data.php");
@@ -20,18 +21,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = sign_up_validate($user);
 
     if (in_array(true, $errors)) {
-        $page_content = include_template("sign-up.php", [
-            "categories" => $categories,
-            "errors" => $errors,
-        ]);
+        $page_content = include_template(
+            "sign-up.php",
+            [
+                "categories" => $categories,
+                "errors" => $errors,
+            ]
+        );
 
-        $layout = include_template("layout.php", [
-            "categories" => $categories,
-            "page_content" => $page_content,
-            "is_auth" => $is_auth,
-            "title" => $title,
-            "user_name" => $user_name,
-        ]);
+        $layout = include_template(
+            "layout.php",
+            [
+                "categories" => $categories,
+                "page_content" => $page_content,
+                "is_auth" => $is_auth,
+                "title" => $title,
+                "user_name" => $user_name,
+            ]
+        );
 
         print($layout);
         die;
@@ -47,13 +54,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $page_content = include_template("sign-up.php");
 
-$layout = include_template("layout.php", [
-    "categories" => $categories,
-    "page_content" => $page_content,
-    "is_auth" => $is_auth,
-    "title" => $title,
-    "user_name" => $user_name
-]);
+$layout = include_template(
+    "layout.php",
+    [
+        "categories" => $categories,
+        "page_content" => $page_content,
+        "is_auth" => $is_auth,
+        "title" => $title,
+        "user_name" => $user_name
+    ]
+);
 
 print($layout);
 
