@@ -1,6 +1,7 @@
 <?php
 
-function validate_add_lot_form($form_values) {
+function validate_add_lot_form($form_values)
+{
     $errors = [];
 
     foreach ($form_values as $key => $value) {
@@ -34,11 +35,13 @@ function validate_add_lot_form($form_values) {
     return $errors;
 }
 
-function is_input_valid($value) {
+function is_input_valid($value)
+{
     return isset($value) && is_numeric($value);
 }
 
-function is_init_price_invalid($value) {
+function is_init_price_invalid($value)
+{
     if (!is_input_valid($value)) {
         return "Введите начальную цену";
     }
@@ -48,7 +51,8 @@ function is_init_price_invalid($value) {
     return false;
 }
 
-function is_bet_step_invalid($value) {
+function is_bet_step_invalid($value)
+{
     if (!is_input_valid($value)) {
         return "Введите шаг ставки";
     }
@@ -58,11 +62,14 @@ function is_bet_step_invalid($value) {
     return false;
 }
 
-function is_completed_invalid($value) {
-    if (empty($value)) return "Введите дату окончания торгов";
+function is_completed_invalid($value)
+{
+    if (empty($value)) {
+        return "Введите дату окончания торгов";
+    }
 
     // проверка формата строки гггг-мм-дд 2012-01-01
-    $is_date_format_valid = preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$value);
+    $is_date_format_valid = preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $value);
     $today = date("Y-m-d");
     $d = new DateTime($value);
     $date = $d->format("U");
@@ -79,15 +86,20 @@ function is_completed_invalid($value) {
     return false;
 }
 
-function is_file_form_invalid() {
-    if (!is_uploaded_file($_FILES["img_url"]["tmp_name"])) return "Загрузите изображение с лотом";
+function is_file_form_invalid()
+{
+    if (!is_uploaded_file($_FILES["img_url"]["tmp_name"])) {
+        return "Загрузите изображение с лотом";
+    }
 
     $allowed_types = ["image/png", "image/jpeg"];
     $allowed_format = ["jpeg", "png", "jpg"];
     $ext = pathinfo($_FILES["img_url"]["name"], PATHINFO_EXTENSION);
 
     if (in_array(mime_content_type($_FILES["img_url"]["tmp_name"]), $allowed_types)) {
-        if (!in_array($ext, $allowed_format)) return "Разрешенные форматы jpeg, jpg, png";
+        if (!in_array($ext, $allowed_format)) {
+            return "Разрешенные форматы jpeg, jpg, png";
+        }
 
         return false;
     }

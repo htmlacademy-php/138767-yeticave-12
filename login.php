@@ -4,13 +4,7 @@ require_once("init.php");
 require_once("helpers.php");
 require_once("data.php");
 
-$lot = get_lot();
-
-if (!$lot[0]) {
-    $page_content = include_template("404.php");
-} else {
-    $page_content = include_template("lot.php", ["lot" => $lot[0]]);
-}
+$page_content = include_template("login.php");
 
 $layout = include_template(
     "layout.php",
