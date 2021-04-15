@@ -89,7 +89,7 @@ function check_user_email($inputEmail)
 {
     global $link;
 
-    $email_sql = "SELECT email FROM users WHERE email = '" . $inputEmail . "';";
+    $email_sql = "SELECT email FROM users WHERE email = '$inputEmail';";
 
     if ($email_result = mysqli_query($link, $email_sql)) {
         return mysqli_fetch_all($email_result, MYSQLI_ASSOC);
